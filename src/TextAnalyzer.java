@@ -24,6 +24,7 @@ public class TextAnalyzer {
 	int wordIndex = 0;
 	int maxIndex = 0;
 	int counter = 0;
+	int largest = 0;
 	String line = null;
 	
 
@@ -167,7 +168,7 @@ public class TextAnalyzer {
 	}
 	
 	public void get_posts_by_comments (int minComments, int maxComments) {
-		/** Returns the posts with the most comments */
+		/** Returns the posts within the comment range */
 		num_of_lines = 0; line = null; num_comments = 0; 
 		ArrayList<String> titleArray = new ArrayList<String>();
 		try {	
@@ -200,6 +201,48 @@ public class TextAnalyzer {
 		} catch (Exception ex) {
 			System.out.println("The file could not be found.");
 		} 
+	}
+	
+	public void get_most_popular_post () {
+	/** Returns the posts with the most comments */
+		num_of_lines = 0; line = null; num_comments = 0; largest = 0; wordIndex = 0;
+		//Store the posts in array titleArray
+		ArrayList<String> titleArray = new ArrayList<String>();
+		try {	
+			FileReader myFileReader=new FileReader(inputFile);
+			BufferedReader myBufferReader= new BufferedReader(myFileReader);
+			while ((line=myBufferReader.readLine())!=null)
+			{
+				titleArray.add(line);
+			} myBufferReader.close();
+		} catch (Exception ex) {
+			System.out.println("The file could not be found.");
+		} 
+		//Iterate through the comment array
+		try {	
+			FileReader myFileReader=new FileReader("rposts_comments.txt");
+			BufferedReader myBufferReader= new BufferedReader(myFileReader);
+			while ((line=myBufferReader.readLine())!=null)
+			{
+				try {
+					String currentLine = line.toLowerCase();
+					int currentNumber = Integer.parseInt(currentLine);
+					if (currentNumber > largest) {
+						largest = currentNumber;
+						wordIndex = num_of_lines;
+					}
+				} catch (NumberFormatException ex) {
+					continue;
+				}
+				num_of_lines++;
+			} myBufferReader.close();
+		} catch (Exception ex) {
+			System.out.println("The file could not be found.");
+		} 
+		//Print out results:
+		System.out.println("The most popular post of the subreddit has "+largest+" comments.\nThe "
+				+ "post title is: "+titleArray.get(num_of_lines));
+		
 	}
 
 	public boolean is_in_array(String[] array_name, String user_response) {

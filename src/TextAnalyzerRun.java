@@ -33,7 +33,8 @@ public class TextAnalyzerRun {
 						+ "2) Search for a combination of words within the posts....\n"
 						+ "3) Search for the sentiment on specific words...\n"
 						+ "4) Search for posts by a specific author...\n"
-						+ "5) Search for posts by comment range...\n");
+						+ "5) Search for posts by comment range...\n"
+						+ "6) Get the most popular post...");
 			
 				selected_item = keyboard.nextInt();
 			} catch (Exception ex) {
@@ -81,6 +82,11 @@ public class TextAnalyzerRun {
 					System.out.println("Select a minimum comment amount by post: ");
 					max_num = keyboard.nextInt();
 					text_reader.get_posts_by_comments(min_num, max_num);
+					System.out.println("\n");
+					break;
+					
+				case 6:
+					text_reader.get_most_popular_post();
 					System.out.println("\n");
 					break;
 			}
