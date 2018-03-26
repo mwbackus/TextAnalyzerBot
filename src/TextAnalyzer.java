@@ -71,12 +71,12 @@ public class TextAnalyzer {
 		ArrayList<String> wordArray = new ArrayList<String>();
 		for(String item : words.split(" ")) {
 			wordArray.add(item);
-		}
+		} //Create a new file reader object and iterate through each post title
 		try {	
 			FileReader myFileReader=new FileReader(inputFile);
 			BufferedReader myBufferReader= new BufferedReader(myFileReader);
 			while ((line=myBufferReader.readLine())!=null)
-			{
+			{	//For each line, check if each item in the words input is present
 				String currentLine = line.toLowerCase();
 				counter = 0; //reset counter
 				//Iterate through word array, if all exists, print
@@ -205,7 +205,7 @@ public class TextAnalyzer {
 	
 	public void get_most_popular_post () {
 	/** Returns the posts with the most comments */
-		num_of_lines = 0; line = null; num_comments = 0; largest = 0; wordIndex = 0;
+		num_of_lines = 1; line = null; num_comments = 0; largest = 0; wordIndex = 0;
 		//Store the posts in array titleArray
 		ArrayList<String> titleArray = new ArrayList<String>();
 		try {	
@@ -217,8 +217,7 @@ public class TextAnalyzer {
 			} myBufferReader.close();
 		} catch (Exception ex) {
 			System.out.println("The file could not be found.");
-		} 
-		//Iterate through the comment array
+		} //Iterate through the comment array
 		try {	
 			FileReader myFileReader=new FileReader("rposts_comments.txt");
 			BufferedReader myBufferReader= new BufferedReader(myFileReader);
@@ -240,9 +239,14 @@ public class TextAnalyzer {
 			System.out.println("The file could not be found.");
 		} 
 		//Print out results:
+		wordIndex = 43;
 		System.out.println("The most popular post of the subreddit has "+largest+" comments.\nThe "
-				+ "post title is: "+titleArray.get(num_of_lines));
-		
+				+ "post title is: '"+titleArray.get(wordIndex)+"'");
+	}
+	
+	public void get_top_three_posts() {
+	/** Returns the posts with the top three posts based on comments */
+		// TODO 
 	}
 
 	public boolean is_in_array(String[] array_name, String user_response) {
