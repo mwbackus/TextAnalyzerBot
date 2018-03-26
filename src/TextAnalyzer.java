@@ -38,7 +38,37 @@ public class TextAnalyzer {
 		inputFile = file;
 	}
 
-	//Methods of Text Analyzer
+	//Utility Methods of Text Analyzer
+	public boolean is_in_array(String[] array_name, String user_response) {
+		/** Check if the user response is in array_name */
+		boolean contains = Stream.of(array_name).anyMatch(x -> x.equals(user_response.toLowerCase())); //Search array
+		if (contains) { //A match has been found
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public void pause_interaction(int seconds) {
+		/** Pauses interaction for seconds input */
+		for (int i=seconds; i>0; i--) {
+			System.out.print(".");
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				continue;
+			}
+		}
+	}
+	
+	public void good_bye() {
+		/** Print good bye message */
+		String user = System.getProperty("user.name");
+		System.out.println("\nHope to talk again! Good bye, "+user+"!");
+		System.exit(0); //End the program
+	}
+	
+	//Analysis Methods of Text Analyzer
 	public void search_word (String word) {
 		/** Searches for data on a specific word within the text file */
 		counted_lines = 0; num_of_lines = 0; line = null;
@@ -247,36 +277,6 @@ public class TextAnalyzer {
 	public void get_top_three_posts() {
 	/** Returns the posts with the top three posts based on comments */
 		// TODO 
-	}
-
-	public boolean is_in_array(String[] array_name, String user_response) {
-		/** Check if the user response is in array_name */
-		boolean contains = Stream.of(array_name).anyMatch(x -> x.equals(user_response.toLowerCase())); //Search array
-		if (contains) { //A match has been found
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public void pause_interaction(int seconds) {
-		/** Pauses interaction for seconds input */
-		for (int i=seconds; i>0; i--) {
-			System.out.print(".");
-			try {
-				TimeUnit.SECONDS.sleep(1);
-			} catch (InterruptedException e) {
-				continue;
-			}
-		}
-	
-	}
-	
-	public void good_bye() {
-		/** Print good bye message */
-		String user = System.getProperty("user.name");
-		System.out.println("\nHope to talk again! Good bye, "+user+"!");
-		System.exit(0); //End the program
 	}
 	
 }
