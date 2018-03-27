@@ -25,6 +25,7 @@ public class TextAnalyzer {
 	int maxIndex = 0;
 	int counter = 0;
 	int largest = 0;
+	int found = 0;
 	String line = null;
 	
 
@@ -68,10 +69,11 @@ public class TextAnalyzer {
 		System.exit(0); //End the program
 	}
 	
+	
 	//Analysis Methods of Text Analyzer
 	public void search_word (String word) {
 		/** Searches for data on a specific word within the text file */
-		counted_lines = 0; num_of_lines = 0; line = null;
+		counted_lines = 0; num_of_lines = 0; line = null; found = 0;
 		try {	
 			FileReader myFileReader=new FileReader(inputFile);
 			BufferedReader myBufferReader= new BufferedReader(myFileReader);
@@ -80,7 +82,7 @@ public class TextAnalyzer {
 				//Print the line if the selected word is found
 				String currentLine = line.toLowerCase();
 				if (currentLine.contains(word)) {
-					counted_lines++;
+					counted_lines++; found++;
 				}
 				num_of_lines++;
 			} myBufferReader.close();
@@ -88,15 +90,19 @@ public class TextAnalyzer {
 			System.out.println("The file could not be found.");
 		} 
 		//Print the results
+		if (found != 0) {
 		percentage = (float)counted_lines / num_of_lines * 100;
 		System.out.println("Word searched: '" + word + "'.");
 		System.out.println("This word appears in " + counted_lines + " posts.");
 		System.out.println("Percentage the word appears in post titles: " + percentage + "%.");
+		} else {
+			System.out.println("There were no words found matching your search for "+word+".");
+		}
 	}
 	
 	public void search_combo (String words) {
 		/** Searches for a combination of words and lines that contain them */
-		num_of_lines = 0; line = null; counter = 0;
+		num_of_lines = 0; line = null; counter = 0; found = 0;
 		//Create a new array from the words input
 		ArrayList<String> wordArray = new ArrayList<String>();
 		for(String item : words.split(" ")) {
@@ -115,6 +121,7 @@ public class TextAnalyzer {
 						counter ++;
 						if (wordArray.size() == counter) {
 							System.out.println("Word combination found in post: " + currentLine);
+							found++;
 						}
 						continue;
 					} else {		
@@ -123,6 +130,9 @@ public class TextAnalyzer {
 				} 
 				num_of_lines++;
 			} myBufferReader.close();
+			if (found == 0) {
+				System.out.println("No results were found for that combination.");
+			}
 		} catch (Exception ex) {
 			System.out.println("The file could not be found.");
 		} 
@@ -130,7 +140,7 @@ public class TextAnalyzer {
 	
 	public void search_sentiment (String word) {
 		/** Searches for the sentiment on a specific word */
-		line = null; wordIndex = 0; counter = 0;
+		line = null; wordIndex = 0; counter = 0; found = 0;
 		try {	
 			FileReader myFileReader=new FileReader(inputFile);
 			BufferedReader myBufferReader= new BufferedReader(myFileReader);
@@ -154,6 +164,7 @@ public class TextAnalyzer {
 					}
 					if (wordIndex <= 0) {
 						System.out.println(word + "... ");
+						found++;
 						continue;
 					}
 					for (int i=wordIndex; i< (wordIndex + maxIndex); i++) {
@@ -162,6 +173,9 @@ public class TextAnalyzer {
 					System.out.println("...");
 				}
 			} myBufferReader.close();
+			if (found == 0) {
+				System.out.println("No results could be found for the word "+word+".");
+			}
 		} catch (Exception ex) {
 			System.out.println("The file could not be found.");
 		}	
@@ -169,7 +183,7 @@ public class TextAnalyzer {
 
 	public void get_post_by_author(String redditUser) {
 		/** Returns the posts by the author's name */
-		num_of_lines = 0; line = null; num_comments = 0; 
+		num_of_lines = 0; line = null; num_comments = 0; found = 0;
 		ArrayList<String> titleArray = new ArrayList<String>();
 		try {	
 			FileReader myFileReader=new FileReader(inputFile);
@@ -187,11 +201,15 @@ public class TextAnalyzer {
 			while ((line=myBufferReader.readLine())!=null)
 			{
 				if (redditUser.equals(line)) {
+					found++;
 					System.out.println("Author: '"+redditUser+"', "
 							+ "Title of Post: "+titleArray.get(num_of_lines));
 				}
 				num_of_lines++;
 			} myBufferReader.close();
+			if (found == 0) {
+				System.out.println("No results could be found for the author "+redditUser+".");
+			}
 		} catch (Exception ex) {
 			System.out.println("The file could not be found.");
 		} 
@@ -212,7 +230,7 @@ public class TextAnalyzer {
 			System.out.println("The file could not be found.");
 		} 
 		try {	
-			FileReader myFileReader=new FileReader("rposts_comments");
+			FileReader myFileReader=new FileReader("rposts_comments.txt");
 			BufferedReader myBufferReader= new BufferedReader(myFileReader);
 			while ((line=myBufferReader.readLine())!=null)
 			{
@@ -272,11 +290,6 @@ public class TextAnalyzer {
 		wordIndex = 43;
 		System.out.println("The most popular post of the subreddit has "+largest+" comments.\nThe "
 				+ "post title is: '"+titleArray.get(wordIndex)+"'");
-	}
-	
-	public void get_top_three_posts() {
-	/** Returns the posts with the top three posts based on comments */
-		// TODO 
 	}
 	
 }
