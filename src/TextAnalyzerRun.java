@@ -79,7 +79,7 @@ public class TextAnalyzerRun {
 					System.out.println("Select a minimum comment amount by post: ");
 					keyboard.nextLine(); //Consume \n leftover
 					min_num = keyboard.nextInt();
-					System.out.println("Select a minimum comment amount by post: ");
+					System.out.println("Select a maxmimum comment amount by post: ");
 					max_num = keyboard.nextInt();
 					text_reader.get_posts_by_comments(min_num, max_num);
 					System.out.println("\n");
@@ -90,9 +90,11 @@ public class TextAnalyzerRun {
 					System.out.println("\n");
 					break;
 			}
+			
 				//Check if user wants to restart
 				System.out.println("Do you want to try another search??");
 				keyboard.nextLine(); //Consume \n leftover
+				System.out.println("Ready for new input: " + keyboard.toString());
 				restart_bot = keyboard.nextLine();
 				if (text_reader.is_in_array(text_reader.exitWords, restart_bot)) {
 					text_reader.good_bye();
