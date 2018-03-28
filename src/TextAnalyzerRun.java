@@ -94,7 +94,6 @@ public class TextAnalyzerRun {
 				//Check if user wants to restart
 				System.out.println("Do you want to try another search??");
 				keyboard.nextLine(); //Consume \n leftover
-				System.out.println("Ready for new input: " + keyboard.toString());
 				restart_bot = keyboard.nextLine();
 				if (text_reader.is_in_array(text_reader.exitWords, restart_bot)) {
 					text_reader.good_bye();
